@@ -12,6 +12,17 @@
     </div>
 
     <div class="row">
+        <div class="col-md-12">
+            @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+            @endif
+        </div>
+    </div>
+
+
+    <div class="row">
         <div class="col-md-6">
             <div class="card gambar-product">
                 <div class="card-body">
@@ -32,9 +43,9 @@
                 <span class="badge badge-danger"> <i class="fas fa-times"></i>Stock Habis</span>
                 @endif
             </h4>
-            <hr>
             <div class="row">
                 <div class="col">
+                    <form wire:submit.prevent="masukkanKeranjang">
                     <table class="table" style="border-top : hidden">
                         <tr>
                             <td>Sepeda</td>
@@ -57,7 +68,7 @@
                             <td>Jumlah</td>
                             <td>:</td>
                             <td>
-                                <input id="jumlah_pesanan" type="number" class="form-control @error('jumlah_pesanan') is-invalid @enderror" jumlah_pesanan="jumlah_pesanan" value="{{ old('jumlah_pesanan') }}" required autocomplete="jumlah_pesanan" autofocus>
+                                <input id="jumlah_pesanan" type="number" class="form-control @error('jumlah_pesanan') is-invalid @enderror" wire:model="jumlah_pesanan" value="{{ old('jumlah_pesanan') }}" required autocomplete="jumlah_pesanan" autofocus>
 
                                 @error('jumlah_pesanan')
                                 <span class="invalid-feedback" role="alert">
@@ -66,14 +77,21 @@
                                 @enderror
                             </td>
                         </tr>
+                        @if(!$jumlah_pesanan > 1)
+                        @else
                         <tr>
                             <td colspan="3"><strong>Name set (isi jika tambah nameset)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Harga Name Set</td>
+                            <td>:</td>
+                            <td>Rp. {{ number_format($product->harga_nameset)}} </td>
                         </tr>
                         <tr>
                             <td>Nama</td>
                             <td>:</td>
                             <td>
-                                <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror" nama="nama" value="{{ old('nama') }}" required autocomplete="nama" autofocus>
+                                <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror" wire:model="nama" value="{{ old('nama') }}" autocomplete="nama" autofocus>
 
                                 @error('nama')
                                 <span class="invalid-feedback" role="alert">
@@ -86,7 +104,7 @@
                             <td>Nomor</td>
                             <td>:</td>
                             <td>
-                                <input id="nomor" type="number" class="form-control @error('nomor') is-invalid @enderror" nomor="nomor" value="{{ old('nomor') }}" required autocomplete="nomor" autofocus>
+                                <input id="nomor" type="number" class="form-control @error('nomor') is-invalid @enderror" wire:model="nomor" value="{{ old('nomor') }}" autocomplete="nomor" autofocus>
 
                                 @error('nomor')
                                 <span class="invalid-feedback" role="alert">
@@ -95,12 +113,14 @@
                                 @enderror
                             </td>
                         </tr>
+                        @endif
                         <tr>
                             <td colspan="3">
-                                <button type="submit" class="btn btn-dark btn-block"><i class="fas fa-shopping-cart"></i>Masukkan Keranjang</button>
+                                <button type="submit" class="btn btn-dark btn-block" @if($product->is_ready !== 1) disabled @endif><i class="fas fa-shopping-cart"></i>Masukkan Keranjang</button>
                             </td>
                         </tr>
                     </table>
+                    </form>
                 </div>
             </div>
         </div>
