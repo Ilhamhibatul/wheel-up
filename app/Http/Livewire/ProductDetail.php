@@ -60,17 +60,22 @@ class ProductDetail extends Component
             $pesanan->total_harga = $pesanan->total_harga+$total_harga;
             $pesanan->update();
         }
+        
+       
+        
     
         //Menyimpan Pesanan Detail
         PesananDetail::create([
             'product_id' => $this->product->id,
             'pesanan_id' => $pesanan->id,
             'jumlah_pesanan' => $this->jumlah_pesanan,
-            'nameset' => $this->nama ? true : false,
+            'namaset' => $this->nama ? true : false,
             'nama' => $this->nama,
             'nomor' => $this->nomor,
             'total_harga' => $total_harga
         ]);
+
+        $this->emit('masukKeranjang');
 
         session()->flash('message','Sukses Masuk Keranjang');
 
