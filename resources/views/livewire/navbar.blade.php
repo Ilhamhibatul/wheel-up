@@ -26,6 +26,9 @@
                             <a class="dropdown-item" href="{{ route('products') }}">Semua Jenis</a>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('history') }}">History</a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
